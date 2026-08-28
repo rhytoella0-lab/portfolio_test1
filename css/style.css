@@ -1,0 +1,882 @@
+/* =========================================================
+   Reset
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+body {
+
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(91, 68, 100, 0.16),
+      transparent 35%
+    ),
+    #111014;
+
+  color: #e8e0d2;
+
+  font-family:
+    "Times New Roman",
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    serif;
+
+  overflow-x: hidden;
+}
+
+
+
+/* =========================================================
+   Header
+========================================================= */
+
+.site-header {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  padding:
+    24px
+    30px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  z-index: 1000;
+
+  pointer-events: none;
+}
+
+
+.site-title {
+
+  font-size: 14px;
+
+  letter-spacing: 0.25em;
+
+  color: #d7c29b;
+
+  pointer-events: auto;
+}
+
+
+.site-nav {
+
+  display: flex;
+
+  gap: 24px;
+
+  pointer-events: auto;
+}
+
+
+.site-nav a {
+
+  color: #cfc5b6;
+
+  text-decoration: none;
+
+  font-size: 11px;
+
+  letter-spacing: 0.18em;
+
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+
+.site-nav a:hover {
+
+  color: #e8c879;
+
+}
+
+
+
+/* =========================================================
+   Art Room
+========================================================= */
+
+#room {
+
+  position: relative;
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+}
+
+
+#art-space {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 100vh;
+
+  overflow: hidden;
+}
+
+
+
+/* =========================================================
+   Artwork
+========================================================= */
+
+.artwork {
+
+  position: absolute;
+
+  user-select: none;
+
+  cursor: pointer;
+
+  transform-origin: center center;
+
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease;
+
+  z-index: 10;
+}
+
+
+.artwork:hover {
+
+  filter:
+    brightness(1.08)
+    drop-shadow(
+      0 0 25px
+      rgba(213, 184, 125, 0.18)
+    );
+
+  z-index: 100;
+}
+
+
+.artwork img,
+.artwork video {
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+
+  border: none;
+}
+
+
+
+/* =========================================================
+   Artwork Frame
+========================================================= */
+
+.artwork-frame {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: #0c0b0d;
+
+  padding: 8px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0, 0, 0, 0.45);
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.25);
+}
+
+
+.artwork-frame::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 3px;
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.12);
+
+  pointer-events: none;
+}
+
+
+
+/* =========================================================
+   Edit Mode
+========================================================= */
+
+body.edit-mode .artwork {
+
+  cursor: move;
+
+  outline:
+    1px dashed
+    rgba(220, 190, 130, 0.7);
+}
+
+
+body.edit-mode .artwork:hover {
+
+  filter: none;
+}
+
+
+.resize-handle {
+
+  display: none;
+
+  position: absolute;
+
+  right: -8px;
+  bottom: -8px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: #d6b86f;
+
+  border:
+    2px solid
+    #19171b;
+
+  cursor: nwse-resize;
+
+  z-index: 1000;
+}
+
+
+body.edit-mode .resize-handle {
+
+  display: block;
+}
+
+
+
+/* =========================================================
+   Placeholder
+========================================================= */
+
+.artwork-placeholder {
+
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  color: #80776b;
+
+  background:
+    linear-gradient(
+      135deg,
+      #18151b,
+      #0d0c10
+    );
+
+  font-size: 11px;
+
+  letter-spacing: 0.1em;
+}
+
+
+
+/* =========================================================
+   Modal
+========================================================= */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  z-index: 5000;
+}
+
+
+.modal.is-open {
+
+  display: block;
+}
+
+
+
+/* =========================================================
+   Modal Background
+========================================================= */
+
+.modal-backdrop {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    rgba(5, 4, 7, 0.96);
+
+  backdrop-filter:
+    blur(8px);
+}
+
+
+
+/* =========================================================
+   Modal Content
+========================================================= */
+
+.modal-content {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width:
+    min(1000px, 92vw);
+
+  height:
+    min(90vh, 900px);
+
+  padding:
+    36px
+    42px;
+
+  background:
+    #121015;
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.3);
+
+  box-shadow:
+    0 30px 100px
+    rgba(0, 0, 0, 0.7);
+
+  overflow-y: auto;
+}
+
+
+
+/* =========================================================
+   Close Button
+========================================================= */
+
+.modal-close {
+
+  position: absolute;
+
+  right: 18px;
+  top: 12px;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #d8c9b1;
+
+  font-size: 30px;
+
+  cursor: pointer;
+
+  z-index: 20;
+}
+
+
+.modal-close:hover {
+
+  color: #e8c879;
+}
+
+
+
+/* =========================================================
+   Modal Media
+========================================================= */
+
+.modal-media {
+
+  width: 100%;
+
+  height:
+    min(55vh, 520px);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  margin-bottom: 16px;
+
+  overflow: hidden;
+
+  background:
+    #09080b;
+}
+
+
+.modal-media img,
+.modal-media video {
+
+  display: block;
+
+  width: auto;
+
+  height: auto;
+
+  max-width: 100%;
+
+  max-height: 100%;
+
+  object-fit: contain;
+}
+
+
+
+/* =========================================================
+   Video Controls
+========================================================= */
+
+.video-controls {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin:
+    0
+    0
+    28px;
+
+  padding:
+    10px
+    12px;
+
+  background:
+    #0b0a0d;
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.18);
+}
+
+
+.video-controls[hidden] {
+
+  display: none;
+}
+
+
+.video-control-button {
+
+  flex:
+    0 0 auto;
+
+  width: 38px;
+  height: 32px;
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.25);
+
+  background:
+    #151318;
+
+  color:
+    #d8c9b1;
+
+  cursor: pointer;
+
+  font-family:
+    inherit;
+
+  font-size: 13px;
+}
+
+
+.video-control-button:hover {
+
+  color:
+    #e8c879;
+
+  border-color:
+    rgba(210, 181, 125, 0.6);
+}
+
+
+.video-progress {
+
+  flex: 1;
+
+  min-width: 80px;
+
+  accent-color:
+    #b99b63;
+
+  cursor: pointer;
+}
+
+
+
+/* =========================================================
+   Modal Information
+========================================================= */
+
+.modal-info {
+
+  max-width: 700px;
+
+  margin:
+    0
+    auto;
+}
+
+
+.modal-category {
+
+  margin: 0;
+
+  color:
+    #b99b63;
+
+  font-size: 11px;
+
+  letter-spacing: 0.2em;
+}
+
+
+.modal-info h2 {
+
+  margin:
+    8px
+    0
+    10px;
+
+  font-size: 25px;
+
+  font-weight: normal;
+}
+
+
+.modal-meta {
+
+  margin: 0;
+
+  color:
+    #8f877d;
+
+  font-size: 12px;
+}
+
+
+.modal-description {
+
+  margin-top: 20px;
+
+  color:
+    #c7bfb2;
+
+  line-height: 2;
+
+  font-size: 14px;
+}
+
+
+
+/* =========================================================
+   About / Contact
+========================================================= */
+
+.simple-section {
+
+  min-height: 100vh;
+
+  padding:
+    160px
+    10vw;
+
+  background:
+    #111014;
+
+  border-top:
+    1px solid
+    rgba(210, 181, 125, 0.12);
+}
+
+
+.section-inner {
+
+  max-width: 700px;
+}
+
+
+.section-label {
+
+  color:
+    #b99b63;
+
+  font-size: 11px;
+
+  letter-spacing: 0.25em;
+}
+
+
+.simple-section h2 {
+
+  font-size: 32px;
+
+  font-weight: normal;
+
+  margin:
+    20px
+    0
+    40px;
+}
+
+
+.simple-section p {
+
+  color:
+    #c9c0b3;
+
+  line-height: 2;
+
+  font-size: 14px;
+}
+
+
+
+/* =========================================================
+   Edit Indicator
+========================================================= */
+
+.edit-indicator {
+
+  position: fixed;
+
+  left: 50%;
+  bottom: 20px;
+
+  transform:
+    translateX(-50%);
+
+  display: none;
+
+  padding:
+    8px
+    18px;
+
+  background:
+    rgba(100, 70, 30, 0.9);
+
+  color:
+    #fff3d4;
+
+  font-size: 10px;
+
+  letter-spacing: 0.2em;
+
+  z-index: 10000;
+}
+
+
+body.edit-mode .edit-indicator {
+
+  display: block;
+}
+
+
+
+/* =========================================================
+   Edit Help
+========================================================= */
+
+.edit-help {
+
+  position: fixed;
+
+  right: 20px;
+  bottom: 20px;
+
+  display: none;
+
+  padding:
+    12px
+    16px;
+
+  background:
+    rgba(10, 9, 12, 0.9);
+
+  border:
+    1px solid
+    rgba(210, 181, 125, 0.25);
+
+  color:
+    #a79e92;
+
+  font-size: 10px;
+
+  line-height: 1.7;
+
+  z-index: 10000;
+}
+
+
+body.edit-mode .edit-help {
+
+  display: block;
+}
+
+
+.edit-help p {
+
+  margin: 0;
+}
+
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .site-header {
+
+    padding:
+      18px
+      18px;
+  }
+
+
+  .site-nav {
+
+    gap: 12px;
+  }
+
+
+  .site-nav a {
+
+    font-size: 9px;
+  }
+
+
+  .modal-content {
+
+    width: 94vw;
+
+    height: 92vh;
+
+    padding:
+      36px
+      18px
+      24px;
+  }
+
+
+  .modal-media {
+
+    height: 42vh;
+  }
+
+
+  .video-controls {
+
+    gap: 6px;
+
+    padding: 8px;
+  }
+
+
+  .video-control-button {
+
+    width: 34px;
+
+    height: 30px;
+  }
+
+
+  .modal-info h2 {
+
+    font-size: 21px;
+  }
+
+
+  .modal-description {
+
+    font-size: 13px;
+
+    line-height: 1.9;
+  }
+
+
+  .simple-section {
+
+    padding:
+      120px
+      24px;
+  }
+
+
+  .edit-help {
+
+    display: none !important;
+  }
+
+}
